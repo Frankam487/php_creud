@@ -1,0 +1,10 @@
+h3{
+  padding: 10px;
+  margin: 15px;
+  border-radius: 8px;
+  color: #fff;
+  background-color: rgba(216, 110, 110, 0.639);
+  width: 50%;
+
+  transform: translateX(50%);
+}

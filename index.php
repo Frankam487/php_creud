@@ -1,19 +1,42 @@
 <?php
 require_once "./connexion.php";
+function clean_inputs($data) {
+  return htmlspecialchars(stripslashes(trim($data)));
+}
+if(isset($_GET['id'])){
+  $id = clean_inputs($_GET['id']);
+  $sql = "SELECT * FROM eleve WHERE id = $id";
+  $request = $pdo->prepare($sql);
+  $request->execute(compact('id'));
+  $student = $request->fetch(); 
+}
+
+$sql = "SELECT * FROM eleve";
+
+$req_select = $pdo->prepare($sql); 
+$req_select->execute();
+$donnees = $req_select->fetchAll();
+
+if(count($donnees) > 0){
+  echo 'cool';
+} else {
+  echo "Aucun etudient trouvé !";
+}
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-  <title>TCrud-student</title>
+  <title>Crud-student</title>
 </head>
 
 <body class="bg-green-100 p-12">
   <div class="container mx-auto p-4">
-    <h1 class="text-4xl font-bold text-green-900 text-center mb-6">CRUD student en PHP et tailwind css V4</h1>
+    <h1 class="text-4xl font-bold text-green-900 text-center mb-6">CRUD PHP</h1>
 
     <!-- Formulaire de recherche -->
     <form method="GET" action="" class="mb-4">
@@ -41,20 +64,24 @@ require_once "./connexion.php";
         </tr>
       </thead>
       <tbody class="divide-y divide-green-100">
-
+        <?php
+        foreach ($donnees as $eleve_ele):
+        ?>
         <tr class="hover:bg-green-50">
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-green-900">nom</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-green-900">premon
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-green-900">
+            <?php echo $eleve_ele['nom'];?>
           </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-green-900">mail
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-green-900"><?php echo $eleve_ele['prenom'];?>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-green-900"><?php echo $eleve_ele['email'];?>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm">
-            <a class="text-green-600 hover:text-green-900 font-medium mr-4" href="">Modifier</a>
+            <a class="text-green-600 hover:text-green-900 font-medium mr-4" href="?edit=<?= $eleve_ele['id']?>">Modifier</a>
             <a class="text-red-600 hover:text-red-900 font-medium" href=""
               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant ?');">Supprimer</a>
           </td>
         </tr>
-
+        <?php endforeach?>
       </tbody>
     </table>
 

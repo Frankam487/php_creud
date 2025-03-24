@@ -2,10 +2,11 @@
 require_once "./connexion.php";
 $message = "";
 
-function clean_inputs($data){
+function clean_inputs($data)
+{
 
 
-return htmlspecialchars(stripslashes(trim($data)));
+  return htmlspecialchars(stripslashes(trim($data)));
 }
 if (isset($_POST['create'])) {
   $nom = clean_inputs($_POST['nom']);
@@ -37,20 +38,20 @@ if (isset($_POST['create'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="src/output.css">
   <link rel="stylesheet" href="c.css">
-  <title>Créer un nouveau Etudiant</title>
+  <title>Modifier Etudiant</title>
 
 </head>
 
 <body class="bg-green-100">
   <div class="container mx-auto p-4  text-center">
-    <h1 class="text-3xl font-bold text-green-900 text-center mb-4">Créer un nouveau Etudiant</h1>
+    <h1 class="text-3xl font-bold text-green-900 text-center mb-4">Modifier Etudiant</h1>
     <div class="error">
       <h3> <?= $message ?></h3>
     </div>
 
     <form action="" method="post" class="bg-white p-6 rounded shadow max-w-md mx-auto">
       <div class="mb-4">
-        <input type="text" name="nom" placeholder="Nom"
+        <input type="text" name="nom" value="<?= $donnee['nom'] ?? ""; ?>" placeholder="Nom"
           class="w-full border border-green-300 p-2 rounded focus:outline-none focus:border-green-500">
       </div>
       <div class="mb-4">
@@ -62,7 +63,7 @@ if (isset($_POST['create'])) {
           class="w-full border border-green-300 p-2 rounded focus:outline-none focus:border-green-500">
       </div>
       <div class="text-center">
-        <input type="submit" name="create" value="Créer"
+        <input type="submit" name="create" value="Modifier"
           class="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
       </div>
     </form>
