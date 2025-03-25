@@ -1,15 +1,6 @@
 <?php
 require_once "./connexion.php";
-function clean_inputs($data) {
-  return htmlspecialchars(stripslashes(trim($data)));
-}
-if(isset($_GET['id'])){
-  $id = clean_inputs($_GET['id']);
-  $sql = "SELECT * FROM eleve WHERE id = $id";
-  $request = $pdo->prepare($sql);
-  $request->execute(compact('id'));
-  $student = $request->fetch(); 
-}
+
 
 $sql = "SELECT * FROM eleve";
 
@@ -65,18 +56,18 @@ if(count($donnees) > 0){
       </thead>
       <tbody class="divide-y divide-green-100">
         <?php
-        foreach ($donnees as $eleve_ele):
+        foreach ($donnees as $donnee):
         ?>
         <tr class="hover:bg-green-50">
           <td class="px-6 py-4 whitespace-nowrap text-sm text-green-900">
-            <?php echo $eleve_ele['nom'];?>
+            <?php echo $donnee['nom'];?>
           </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-green-900"><?php echo $eleve_ele['prenom'];?>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-green-900"><?php echo $donnee['prenom'];?>
           </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-green-900"><?php echo $eleve_ele['email'];?>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-green-900"><?php echo $donnee['email'];?>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm">
-            <a class="text-green-600 hover:text-green-900 font-medium mr-4" href="?edit=<?= $eleve_ele['id']?>">Modifier</a>
+            <a class="text-green-600 hover:text-green-900 font-medium mr-4" href="update.php?id=<?=$donnee['id'];?>">Modifier</a>
             <a class="text-red-600 hover:text-red-900 font-medium" href=""
               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant ?');">Supprimer</a>
           </td>
